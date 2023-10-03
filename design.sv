@@ -10,7 +10,7 @@
 `include "modulos/ALU.sv"
 `include "modulos/Muxsb.sv"
 `include "modulos/DataMemory.sv"
-`include "modulos/MuxData.sv"
+`include "modulos/MuxData.sv" 
 
 module Procesador(
   input logic CLK
@@ -35,6 +35,7 @@ module Procesador(
   logic [4:0] rd;
   logic [24:0] Inst;
   
+  //Decode
   assign Opcode = Instruction[6:0];
   assign Funct3 = Instruction[14:12];
   assign Funct7 = Instruction[31:25];
@@ -57,9 +58,6 @@ module Procesador(
   //Salida Registers Unit
   logic [31:0] RUrs1;
   logic [31:0] RUrs2;
-  logic [31:0] DataWr;
-  
-  assign DataWr = RUrs2;
   
   //Salida Imm Gen
   logic [31:0] ImmExt;
@@ -74,9 +72,7 @@ module Procesador(
   logic NextPCSrc;
   
   //Salida ALU
-  logic [31:0] Addresss;
-  
-  assign Addresss = ALURes;
+  logic [31:0] ALURes;
   
   //Salida Muxsb
   logic [31:0] in;
@@ -91,7 +87,7 @@ module Procesador(
   ProgramCounter miProgramCounter(
     .CLK(CLK),
     .reset(reset), // Conexión de la señal de reset
-    .in(pc_in),    // Conexión de la señal 'in' al PC
+    .in(in),    // Conexión de la señal 'in' al PC
     .Address(Address) // Conexión de la señal de salida 'Address' del PC);
   );
 
@@ -124,7 +120,7 @@ module Procesador(
     .rs1(rs1),          // Conexión de la señal 'rs1' a la entrada 'rs1' del RegistersUnit
     .rs2(rs2),          // Conexión de la señal 'rs2' a la entrada 'rs2' del RegistersUnit
     .rd(rd),            // Conexión de la señal 'rd' a la entrada 'rd' del RegistersUnit
-    .Datawr(Datawr),    // Revisar hay dos DataWr y Datawr
+    .Datawr(Datawr),    // Conexión de la señal 'Datawr' de miMuxData a la entrada Datawr del registerUnit
     .RUWr(RUWr),        // Conexión de la señal 'RUWr' del "design" a la entrada 'RUWr' del RegistersUnit
     .CLK(CLK),          // Sincronizacion con el clock
     .RUrs1(RUrs1),      // Conexión de la señal de salida 'RUrs1' del RegistersUnit
@@ -145,7 +141,11 @@ module Procesador(
   );
   
   Muxrs2 miMuxrs2(
-    RUrs2, ImmExt, ALUBSrc, B);
+    .RUrs2(RUrs2),      //Conexión de la señal 'RUrs2' a la entrada 'RUrs2' del Muxrs2 
+    .ImmExt(ImmExt),    //Conexión de la señal 'ImmExt' que viene de miImmGen a la entrada 'ImmExt'
+    .ALUBSrc(ALUBSrc),  //Conexión de la señal 'ALUBSrc' que viene del ControlUnit a la entrada 'ALUBSrc'
+    .B(B)               //Conexión de la señal de salida 'B'
+    );
   
   BranchUnit miBranchUnit(
     .RUrs1(RUrs1),          // Conexión del RUrs1 que viene del register file a la entrada 'RUrs1'
@@ -154,11 +154,19 @@ module Procesador(
     .NextPCSrc(NextPCSrc)   // Conexión del NextPCSrc
     );
   
-  ALU miALU(
-    A, B, ALUOp, ALURes);
+  ALU miALU(                
+    .A(A),              //Conexión de la señal 'A' que viene de miMuxrs1 a la entrada 'A'
+    .B(B),              //Conexión de la señal 'B' que viene de miMuxrs2 a la entrada 'B'
+    .ALUOp(ALUOp),      //Conexión de la señal 'ALUOp' que viene de ControlUnit a la entrada 'ALUOp'
+    .ALURes(ALURes)     //Señal de salida 'ALURes'
+    );
   
   Muxsb miMuxsb(
-    out, ALURes, NextPCSrc, in);
+    .out(out),          //Conexión de la señal 'out' que viene del sumador a la entrada 'out'
+    .ALURes(ALURes),    //Conexión de la señal 'ALURes' que viene de la ALU a la entrada 'ALURes'
+    .NextPCSrc(NextPCSrc), //Conexión de la señal 'NextPCSrc' que viene de miBranchUnit a la entrada 'NextPCSrc'
+    .in(in)               //Señal de salida 'in'
+    );
   
   DataMemory miDataMemory(
     .Addresss(ALURes),      // La señal 'ALUres' que viene de la ALU se conecta a la entrada 'Address'
@@ -169,7 +177,12 @@ module Procesador(
   );
   
   MuxData miMuxData(
-    out, DataRd, ALURes, RUDataWrSrc, Datawr);
+    .out(out),              //La señal 'out' que viene del sumador se conecta con la entrada 'out'
+    .DataRd(DataRd),        //La señal 'DataRd' que viene del DataMemory se conecta con la entrada 'DataRd'
+    .ALURes(ALURes),        //La señal 'ALURes' que viene de la ALU se conecta con la entrada 'ALURes'
+    .RUDataWrSrc(RUDataWrSrc), //La señal 'RUDataWrSrc' que viene del ControlUnit se conecta con la entrada 'RUDataWrSrc' 
+    .Datawr(Datawr)          //La señal de salida 'Datawr'   
+    );
  
 
 endmodule
