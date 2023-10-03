@@ -1,5 +1,3 @@
-// Code your design here
-
 `include "modulos/ProgramCounter.sv"
 `include "modulos/Sumador.sv"
 `include "modulos/InstructionMemory.sv"
@@ -35,7 +33,7 @@ module Procesador(
   logic [4:0] rs1;
   logic [4:0] rs2;
   logic [4:0] rd;
-  logic [24:0] 3;
+  logic [24:0] Inst;
   
   assign Opcode = Instruction[6:0];
   assign Funct3 = Instruction[14:12];
@@ -95,7 +93,7 @@ module Procesador(
     .reset(reset), // Conexión de la señal de reset
     .in(pc_in),    // Conexión de la señal 'in' al PC
     .Address(Address) // Conexión de la señal de salida 'Address' del PC);
-  )
+  );
 
   Sumador miSumador(
     .Address(Address),  // Conexión de la señal 'Address' a la entrada 'Address' del Sumador
@@ -103,8 +101,8 @@ module Procesador(
   );
   
   InstructionMemory miInstructionMemory(
-    .Address(Address),  // Conexión de la señal 'Address' del PC a 'Address' de InstructionMemory
-    .Instruction(Instruction)
+    .Address(Address),        // Conexión de la señal 'Address' del PC a 'Address' de InstructionMemory
+    .Instruction(Instruction) // Conexión de la señal de salida 'Instruction'
   );
   
   ControlUnit miControlUnit(
@@ -123,10 +121,21 @@ module Procesador(
   );
   
   RegistersUnit miRegistersUnit(
-    rs1, rs2, rd, Datawr, RUWr, CLK, RUrs1, RUrs2);
+    .rs1(rs1),          // Conexión de la señal 'rs1' a la entrada 'rs1' del RegistersUnit
+    .rs2(rs2),          // Conexión de la señal 'rs2' a la entrada 'rs2' del RegistersUnit
+    .rd(rd),            // Conexión de la señal 'rd' a la entrada 'rd' del RegistersUnit
+    .Datawr(Datawr),    // Revisar hay dos DataWr y Datawr
+    .RUWr(RUWr),        // Conexión de la señal 'RUWr' del "design" a la entrada 'RUWr' del RegistersUnit
+    .CLK(CLK),          // Sincronizacion con el clock
+    .RUrs1(RUrs1),      // Conexión de la señal de salida 'RUrs1' del RegistersUnit
+    .RUrs2(RUrs2)       // Conexión de la señal de salida 'RUrs2' del RegistersUnit
+  );
   
   ImmGen miImmGen(
-    Inst, ImmSrc, ImmExt);
+    .Inst(Inst),        // Conexión de la señal 'Inst' del Instruction Memory a la entrada 'Inst' del ImmGen
+    .ImmSrc(ImmSrc),    // Conexión de la señal 'ImmSrc' del Control Unit a la entrada 'ImmSrc' del ImmGen
+    .ImmExt(ImmExt)     // Conexión de la señal de salida 'ImmExt' del ImmGen
+  );
   
   Muxrs1 miMuxrs1(
     .Address(Address),  // Conexión de la señal 'Address' a la entrada 'Address' del Muxrs1
@@ -139,7 +148,11 @@ module Procesador(
     RUrs2, ImmExt, ALUBSrc, B);
   
   BranchUnit miBranchUnit(
-    RUrs2, RUrs1, BrOp, NextPCSrc);
+    .RUrs1(RUrs1),          // Conexión del RUrs1 que viene del register file a la entrada 'RUrs1'
+    .RUrs2(RUrs2),          // Conexión del RUrs2 que viene del register file a la entrada 'RUrs2'
+    .BrOp(BrOp),            // Conexión del BrOp que viene del control unity a la entrada 'BrOp'
+    .NextPCSrc(NextPCSrc)   // Conexión del NextPCSrc
+    );
   
   ALU miALU(
     A, B, ALUOp, ALURes);
@@ -148,7 +161,12 @@ module Procesador(
     out, ALURes, NextPCSrc, in);
   
   DataMemory miDataMemory(
-    Addresss, DataWr, DMWr, DMCtrl, DataRd);
+    .Addresss(ALURes),      // La señal 'ALUres' que viene de la ALU se conecta a la entrada 'Address'
+    .DataWr(RUrs2),         // La señal 'RUrs2' que viene del register file se conecta a la entrada 'DataWr' 
+    .DMWr(DMWr),            // La señal 'DMWr' que viene del contro unity se conecta a la entrada 'DMWr'
+    .DMCtrl(DMCtrl),        // La señal 'DMCtrl' que viene del control unity se conecta a la entrada 'DMCtrl'
+    .DataRd(DataRd)         // La señal de salida 'DataRd' 
+  );
   
   MuxData miMuxData(
     out, DataRd, ALURes, RUDataWrSrc, Datawr);
