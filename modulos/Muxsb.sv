@@ -1,14 +1,14 @@
 module Muxsb(
-  input [31:0] out,
-  input [31:0] ALURes,
-  input NextPCSrc,
-  output reg [31:0] in
+  input [31:0] MSBout,
+  input [31:0] MSBALURes,
+  input MSBNextPCSrc,
+  output reg [31:0] MSBin
 );
   
   always@(*) begin
-    if (NextPCSrc == 0)
-      in = out;
-    if (NextPCSrc == 1)
-      in = ALURes;
+    if (MSBNextPCSrc == 0)
+      MSBin = MSBout;
+    if (MSBNextPCSrc == 1)
+      MSBin = MSBALURes;
   end
 endmodule

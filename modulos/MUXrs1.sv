@@ -1,14 +1,14 @@
 module Muxrs1(
-  input [31:0] Address,
-  input [31:0] RUrs1,
-  input ALUASrc,
-  output reg [31:0] A
+  input [31:0] MR1Address,
+  input [31:0] MR1RUrs1,
+  input MR1ALUASrc,
+  output reg [31:0] MR1A
 );
   
   always@(*) begin
-    if (ALUASrc == 0)
-      A = RUrs1;
-    if (ALUASrc == 1)
-      A = Address;
+    if (MR1ALUASrc == 0)
+      MR1A = MR1RUrs1;
+    if (MR1ALUASrc == 1)
+      MR1A = MR1Address;
   end
 endmodule

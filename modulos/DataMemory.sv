@@ -1,11 +1,9 @@
-// Code your design here
-
 module DataMemory(
-  input [31:0] Addresss,
-  input [31:0] DataWr,
+  input [31:0] DMAddresss,
+  input [31:0] DMDataWr,
   input DMWr,
   input [2:0] DMCtrl,
-  output reg [31:0] DataRd
+  output reg [31:0] DMDataRd
 );
   
   logic [7:0] DM [63:0];
@@ -14,55 +12,55 @@ module DataMemory(
       $readmemb("dataMemory.txt", DM);
   end
   
-  always @(Addresss, DataWr, DMWr, DMCtrl, DataRd) begin
+  always @(DMAddresss, DMDataWr, DMWr, DMCtrl, DMDataRd) begin
     if(DMWr == 0)begin
       case(DMCtrl)
         3'b000: 
-          if(DM[Addresss[7]] == 1)begin
-            DataRd[31:8] = 1;
-            DataRd[7:0] = DM[Addresss];
+          if(DM[DMAddresss[7]] == 1)begin
+            DMDataRd[31:8] = 1;
+            DMDataRd[7:0] = DM[DMAddresss];
           end else begin
-            DataRd[31:8] = 0;
-            DataRd[7:0] = DM[Addresss];
+            DMDataRd[31:8] = 0;
+            DMDataRd[7:0] = DM[DMAddresss];
           end
         3'b001:
-          if(DM[Addresss[15]] == 1)begin
-            DataRd[31:16] = 1;
-            DataRd[15:0] = {DM[Addresss],DM[Addresss+1]};
+          if(DM[DMAddresss[15]] == 1)begin
+            DMDataRd[31:16] = 1;
+            DMDataRd[15:0] = {DM[DMAddresss],DM[DMAddresss+1]};
           end else begin
-            DataRd[31:16] = 0;
-            DataRd[15:0] = {DM[Addresss],DM[Addresss+1]};
+            DMDataRd[31:16] = 0;
+            DMDataRd[15:0] = {DM[DMAddresss],DM[DMAddresss+1]};
           end
-        3'b010: DataRd = {DM[Addresss], DM[Addresss+1], 	       						      DM[Addresss+2], DM[Addresss+3]};
+        3'b010: DMDataRd = {DM[DMAddresss], DM[DMAddresss+1],DM[DMAddresss+2], DM[DMAddresss+3]};
         
         3'b100: 
           begin
-            DataRd[31:8] = 0;
-            DataRd[7:0]  = DM[Addresss];
+            DMDataRd[31:8] = 0;
+            DMDataRd[7:0]  = DM[DMAddresss];
           end
         3'b101:
           begin
-            DataRd[31:16] = 0;
-            DataRd[15:0]  = {DM[Addresss], DM[Addresss+1]};
+            DMDataRd[31:16] = 0;
+            DMDataRd[15:0]  = {DM[DMAddresss], DM[DMAddresss+1]};
           end
       endcase
     end else begin
             case(DMCtrl)
-              3'b000: DM[Addresss]   <= DataWr[7:0];
+              3'b000: DM[DMAddresss]   <= DMDataWr[7:0];
               3'b001: 
                 begin
-                  DM[Addresss]   <= DataWr[7:0];
-                  DM[Addresss+1] <= DataWr[15:8];
+                  DM[DMAddresss]   <= DMDataWr[7:0];
+                  DM[DMAddresss+1] <= DMDataWr[15:8];
                 end
               3'b010:
                 begin
-                  DM[Addresss]   <= DataWr[7:0];
-                  DM[Addresss+1] <= DataWr[15:8];
-                  DM[Addresss+2] <= DataWr[23:16];
-                  DM[Addresss+3] <= DataWr[31:23];
+                  DM[DMAddresss]   <= DMDataWr[7:0];
+                  DM[DMAddresss+1] <= DMDataWr[15:8];
+                  DM[DMAddresss+2] <= DMDataWr[23:16];
+                  DM[DMAddresss+3] <= DMDataWr[31:23];
                 end
             endcase
-      //DataRd[7:0] = DM[Addresss];
+      //DMDataRd[7:0] = DM[DMAddresss];
         end
     end
 endmodule

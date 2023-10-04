@@ -1,70 +1,68 @@
-// Code your design here
-
 module BranchUnit(
-  input [31:0] RUrs2,
-  input [31:0] RUrs1,
-  input [4:0] BrOp,
-  output reg NextPCSrc
+  input [31:0] BURUrs2,
+  input [31:0] BURUrs1,
+  input [4:0] BUBrOp,
+  output reg BUNextPCSrc
 );
   
   always@(*) begin
-    case(BrOp)
+    case(BUBrOp)
       5'b00000:
-        //RUrs2 == RUrs1
-        if (RUrs2 == RUrs1)begin
-          NextPCSrc = 1;
+        //BURUrs2 == BURUrs1
+        if (BURUrs2 == BURUrs1)begin
+          BUNextPCSrc = 1;
         end else begin
-          NextPCSrc = 0;
+          BUNextPCSrc = 0;
         end
       
       5'b00001:
-        //RUrs2 != RUrs1
-        if (RUrs2 != RUrs1)begin
-          NextPCSrc = 1;
+        //BURUrs2 != BURUrs1
+        if (BURUrs2 != BURUrs1)begin
+          BUNextPCSrc = 1;
         end else begin
-          NextPCSrc = 0;
+          BUNextPCSrc = 0;
         end
       
       5'b00100:
-        //RUrs2 < RUrs1
-        if (RUrs2 < RUrs1)begin
-          NextPCSrc = 1;
+        //BURUrs2 < BURUrs1
+        if (BURUrs2 < BURUrs1)begin
+          BUNextPCSrc = 1;
         end else begin
-          NextPCSrc = 0;
+          BUNextPCSrc = 0;
         end
       
       5'b00101:
-        //RUrs2 >= RUrs1
-        if (RUrs2 >= RUrs1)begin
-          NextPCSrc = 1;
+        //BURUrs2 >= BURUrs1
+        if (BURUrs2 >= BURUrs1)begin
+          BUNextPCSrc = 1;
         end else begin
-          NextPCSrc = 0;
+          BUNextPCSrc = 0;
         end
       
       5'b00110:
-        //RUrs2 < RUrs1
-        if (RUrs2 < RUrs1)begin
-          NextPCSrc = 1;
+        //BURUrs2 < BURUrs1
+        if (BURUrs2 < BURUrs1)begin
+          BUNextPCSrc = 1;
         end else begin
-          NextPCSrc = 0;
+          BUNextPCSrc = 0;
         end
       
       5'b00111:
-        //RUrs2 >= RUrs1
-        if (RUrs2 >= RUrs1)begin
-          NextPCSrc = 1;
+        //BURUrs2 >= BURUrs1
+        if (BURUrs2 >= BURUrs1)begin
+          BUNextPCSrc = 1;
         end else begin
-          NextPCSrc = 0;
+          BUNextPCSrc = 0;
         end
       
       5'b01111:
-        NextPCSrc = 1;
+        BUNextPCSrc = 1;
       
       5'b10111:
-        NextPCSrc = 1;
+        BUNextPCSrc = 1;
       
       5'b10101:
-        NextPCSrc = 0;
+        BUNextPCSrc = 0;
     endcase
   end
 endmodule

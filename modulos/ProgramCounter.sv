@@ -1,17 +1,19 @@
 module ProgramCounter(
-  input logic CLK, reset,
-  input [31:0] in,
-  output reg [31:0] Address = 0
+  input clk, 
+  input reset,
+  input [31:0] PCin,
+  input [31:0] IAddress,
+  output reg [31:0] PCAddress 
 );
   
- always @(posedge CLK or posedge reset) begin
-    if (reset) begin
+ always @(posedge clk) begin
+    if (reset == 1'b1) 
       // Cuando se activa el reset, establece Address en 0
-      Address <= 0;
-    end else begin
+      PCAddress = IAddress;
+    else 
       // En otros casos, actualiza Address con la entrada in
-      Address <= in;
-    end
+      PCAddress = PCin;
+      $display("PCAddress: %d", PCAddress);
   end
   
 endmodule
