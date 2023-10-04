@@ -1,8 +1,8 @@
 // Code your design here
 
 module InstructionMemory(
-  input [31:0] Address,
-  output reg [31:0] Instruction
+  input [31:0] IMAddress,
+  output reg [31:0] IMInstruction
 );
   
   reg [31:0] direccion;
@@ -14,9 +14,9 @@ module InstructionMemory(
     $readmemb("instructionMemory.txt", IM);
   end
   
-  always@(Address, Instruction)begin
-    direccion = Address/4;
-    Instruction = IM[direccion];
+  always@(IMAddress, IMInstruction)begin
+    direccion = IMAddress/4;
+    IMInstruction = IM[direccion];
   end
   
 endmodule

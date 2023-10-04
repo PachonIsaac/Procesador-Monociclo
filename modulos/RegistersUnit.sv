@@ -4,7 +4,7 @@ module RegistersUnit(
   input [4:0] rd,
   input [31:0] Datawr,
   input RUWr,
-  input logic CLK,
+  input CLK,
   output [31:0] RUrs1,
   output [31:0] RUrs2
 );

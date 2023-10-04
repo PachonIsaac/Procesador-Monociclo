@@ -1,9 +1,9 @@
 module Sumador(
-  input [31:0] Address,
-  output reg [31:0] out
+  input [31:0] SMAddress,
+  output reg [31:0] SMout
 );
   
   always@(*)
-    out = Address + 4;
+    SMout = SMAddress + 4;
   
 endmodule

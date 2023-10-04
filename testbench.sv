@@ -1,10 +1,13 @@
 // Code your testbench here
 // or browse Examples
+`include "design.sv"
 
 module test;
   logic CLK;
   
-  Procesador miProcesador(CLK);
+  Procesador miProcesador(
+    .CLK(CLK)
+  );
   
   parameter PERIODO = 20;
   

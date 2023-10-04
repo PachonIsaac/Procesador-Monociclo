@@ -1,90 +1,90 @@
 // Code your design here
 
 module ControlUnit(
-  input [6:0] Opcode,
-  input [2:0] Funct3,
-  input [6:0] Funct7,
-  output reg RUWr,
-  output reg [2:0] ImmSrc,
-  output reg ALUASrc,
-  output reg ALUBSrc,
-  output reg [4:0] BrOp,
-  output reg [3:0] ALUOp,
-  output reg DMWr,
-  output reg [2:0] DMCtrl,
-  output reg [1:0] RUDataWrSrc
+  input [6:0] CUOpcode,
+  input [2:0] CUFunct3,
+  input [6:0] CUFunct7,
+  output reg CURUWr,
+  output reg [2:0] CUImmSrc,
+  output reg CUALUASrc,
+  output reg CUALUBSrc,
+  output reg [4:0] CUBrOp,
+  output reg [3:0] CUALUOp,
+  output reg CUDMWr,
+  output reg [2:0] CUDMCtrl,
+  output reg [1:0] CURUDataWrSrc
 );
   
   always@(*)begin
-    case(Opcode)
+    case(CUOpcode)
       // Tipo R
       7'b0110011:
         begin
-          RUWr       = 1;
-          ImmSrc      = 0;
-          ALUASrc     = 0;
-          ALUBSrc     = 0;
-          BrOp        = 5'b10101;
-          DMWr        = 0;
-          DMCtrl      = 0;
-          RUDataWrSrc = 0;
-          case(Funct3)
+          CURUWr       = 1;
+          CUImmSrc      = 0;
+          CUALUASrc     = 0;
+          CUALUBSrc     = 0;
+          CUBrOp        = 5'b10101;
+          CUDMWr        = 0;
+          CUDMCtrl      = 0;
+          CURUDataWrSrc = 0;
+          case(CUFunct3)
           3'b000:
-            case(Funct7)
+            case(CUFunct7)
               7'b0000000:
-                ALUOp = 4'b0000; //add
+                CUALUOp = 4'b0000; //add
               7'b0100000:
-                ALUOp = 4'b1000; //sub
+                CUALUOp = 4'b1000; //sub
             endcase
           3'b001:
-            ALUOp = 4'b0001;	 //sll
+            CUALUOp = 4'b0001;	 //sll
           3'b010:
-            ALUOp = 4'b0010;	 //slt
+            CUALUOp = 4'b0010;	 //slt
           3'b011:
-            ALUOp = 4'b0011;     //sltu
+            CUALUOp = 4'b0011;     //sltu
           3'b100:
-            ALUOp = 4'b0100;     //xor
+            CUALUOp = 4'b0100;     //xor
           3'b101:
-            case(Funct7)
+            case(CUFunct7)
               7'b0000000:
-                ALUOp = 4'b1101; //srl
+                CUALUOp = 4'b1101; //srl
               7'b0100000:
-                ALUOp = 4'b0101; //sra
+                CUALUOp = 4'b0101; //sra
             endcase
           3'b110:
-            ALUOp = 4'b0110;     //or
+            CUALUOp = 4'b0110;     //or
           3'b111: 
-            ALUOp = 4'b0111;     //and
+            CUALUOp = 4'b0111;     //and
           endcase
         end
       // Tipo I
       7'b0010011:
         begin
-          RUWr        = 1;
-          ImmSrc      = 0;
-          ALUASrc     = 0;
-          ALUBSrc     = 1;
-          BrOp        = 5'b10101;
-          DMWr        = 0;
-          DMCtrl      = 0;
-          RUDataWrSrc = 0;
-          case(Funct3)
+          CURUWr        = 1;
+          CUImmSrc      = 0;
+          CUALUASrc     = 0;
+          CUALUBSrc     = 1;
+          CUBrOp        = 5'b10101;
+          CUDMWr        = 0;
+          CUDMCtrl      = 0;
+          CURUDataWrSrc = 0;
+          case(CUFunct3)
             3'b000:
-              ALUOp = 4'b0000; //addi
+              CUALUOp = 4'b0000; //addi
             3'b001:
-              ALUOp = 4'b0001; //slli
+              CUALUOp = 4'b0001; //slli
             3'b010:
-              ALUOp = 4'b0010; //slti
+              CUALUOp = 4'b0010; //slti
             3'b011:
-              ALUOp = 4'b0011; //sltiu
+              CUALUOp = 4'b0011; //sltiu
             3'b100:
-              ALUOp = 4'b0100; //xori
+              CUALUOp = 4'b0100; //xori
             3'b101:
-              ALUOp = 4'b0101; //srai
+              CUALUOp = 4'b0101; //srai
             3'b110:
-              ALUOp = 4'b0110; //ori
+              CUALUOp = 4'b0110; //ori
             3'b111:
-              ALUOp = 4'b0111; //andi
+              CUALUOp = 4'b0111; //andi
           endcase
         end
       // Tipo I load

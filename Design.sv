@@ -13,100 +13,39 @@
 `include "modulos/MuxData.sv" 
 
 module Procesador(
-  input logic CLK
+  input wire CLK,
+  input wire reset
 );
-  
-  logic [31:0] ALURes;
-  logic [31:0] Instruction;
-  
-  
-  //Salida Program Counter
-  logic [31:0] Address;
-  
-  //Salida Sumador
-  logic [31:0] out;
-  
-  //Salida Instruction Memory
-  logic [6:0] Opcode;
-  logic [2:0] Funct3;
-  logic [6:0] Funct7;
-  logic [4:0] rs1;
-  logic [4:0] rs2;
-  logic [4:0] rd;
-  logic [24:0] Inst;
-  
-  //Decode
-  assign Opcode = Instruction[6:0];
-  assign Funct3 = Instruction[14:12];
-  assign Funct7 = Instruction[31:25];
-  assign rs1    = Instruction[19:15];
-  assign rs2    = Instruction[24:20];
-  assign rd     = Instruction[11:7];
-  assign Inst   = Instruction[31:7];
-  
-  //Salida Control Unit
-  logic RUWr;
-  logic [2:0] ImmSrc;
-  logic ALUASrc;
-  logic ALUBSrc;
-  logic [4:0] BrOp;
-  logic [3:0] ALUOp;
-  logic DMWr;
-  logic [2:0] DMCtrl;
-  logic [1:0] RUDataWrSrc;
-  
-  //Salida Registers Unit
-  logic [31:0] RUrs1;
-  logic [31:0] RUrs2;
-  
-  //Salida Imm Gen
-  logic [31:0] ImmExt;
-  
-  //Salida Muxrs1
-  logic [31:0] A;
-  
-  //Salida Muxrs2
-  logic [31:0] B;
-  
-  //Salida Branch Unit
-  logic NextPCSrc;
-  
-  //Salida ALU
-  logic [31:0] ALURes;
-  
-  //Salida Muxsb
-  logic [31:0] in;
-  
-  //Salida Data Memory
-  logic [31:0] DataRd;
-  
-  //Salida MuxData
-  logic [31:0] Datawr;
-  
-  
+
+wire [31:0] PCin; // Señal de entrada del PC
+wire [31:0] PCAddress; // Señal de salida del sumador
+wire [31:0] SMout; // Señal de salida del sumador
+wire [31:0] IMInstruction; // Señal de salida del InstructionMemory
+
+
   ProgramCounter miProgramCounter(
     .CLK(CLK),
     .reset(reset), // Conexión de la señal de reset
-    .in(in),    // Conexión de la señal 'in' al PC
-    .Address(Address) // Conexión de la señal de salida 'Address' del PC);
+    .PCin(PCin),    // Conexión de la señal 'in' al PC
+    .PCAddress(PCAddress) // Conexión de la señal de salida 'Address' del PC);
   );
 
   Sumador miSumador(
-    .Address(Address),  // Conexión de la señal 'Address' a la entrada 'Address' del Sumador
-    .out(out)           // Conexión de la señal de salida 'out' del Sumador
+    .SMAddress(PCAddress),  // Conexión de la señal 'Address' a la entrada 'Address' del Sumador
+    .SMout(SMout)           // Conexión de la señal de salida 'out' del Sumador
   );
   
   InstructionMemory miInstructionMemory(
-    .Address(Address),        // Conexión de la señal 'Address' del PC a 'Address' de InstructionMemory
-    .Instruction(Instruction) // Conexión de la señal de salida 'Instruction'
+    .IMAddress(SMAddress),        // Conexión de la señal 'Address' del PC a 'Address' de InstructionMemory
+    .IMInstruction(IMInstruction) // Conexión de la señal de salida 'Instruction'
   );
   
   ControlUnit miControlUnit(
-    .Opcode(Opcode),         // Conecta Opcode a Opcode
-    .Funct3(Funct3),         // Conecta Funct3 a Funct3
-    .Funct7(Funct7),         // Conecta Funct7 a Funct7
-    .RUWr(RUWr),             // Conecta RUWr a RUWr
-    .ImmSrc(ImmSrc),         // Conecta ImmSrc a ImmSrc
+    .CUOpcode(Opcode),         // Conecta Opcode a Opcode
+    .CUFunct3(Funct3),         // Conecta Funct3 a Funct3
+    .CUFunct7(Funct7),         // Conecta Funct7 a Funct7
+    .CURUWr(CURUWr),             // Conecta RUWr a RUWr
+    .CUImmSrc(CUImmSrc),         // Conecta ImmSrc a ImmSrc
     .ALUASrc(ALUASrc),       // Conecta ALUASrc a ALUASrc
     .ALUBSrc(ALUBSrc),       // Conecta ALUBSrc a ALUBSrc
     .BrOp(BrOp),             // Conecta BrOp a BrOp
@@ -186,5 +125,3 @@ module Procesador(
  
 
 endmodule
-  
-  
