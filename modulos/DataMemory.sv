@@ -1,11 +1,11 @@
 // Code your design here
 
 module DataMemory(
-  input [31:0] Addresss,
-  input [31:0] DataWr,
+  input [31:0] DMAddresss,
+  input [31:0] DMDataWr,
   input DMWr,
   input [2:0] DMCtrl,
-  output reg [31:0] DataRd
+  output reg [31:0] DMDataRd
 );
   
   logic [7:0] DM [63:0];

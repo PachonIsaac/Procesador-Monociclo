@@ -1,17 +1,17 @@
 module MuxData(
-  input [31:0] out,
-  input [31:0] DataRd,
-  input [31:0] ALURes,
-  input [1:0]  RUDataWrSrc,
-  output reg [31:0] Datawr
+  input [31:0] MDout,
+  input [31:0] MDDataRd,
+  input [31:0] MDALURes,
+  input [1:0]  MDRUDataWrSrc,
+  output reg [31:0] MDDatawr
 );
   
   always@(*) begin
-    if (RUDataWrSrc == 2'b10)
-      Datawr = out;
-    if (RUDataWrSrc == 2'b01)
-      Datawr = DataRd;
-    if (RUDataWrSrc == 2'b00)
-      Datawr = ALURes;
+    if (MDRUDataWrSrc == 2'b10)
+      MDDatawr = MDout;
+    if (MDRUDataWrSrc == 2'b01)
+      MDDatawr = MDDataRd;
+    if (MDRUDataWrSrc == 2'b00)
+      MDDatawr = MDALURes;
   end
 endmodule

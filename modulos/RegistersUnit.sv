@@ -1,12 +1,12 @@
 module RegistersUnit(
-  input [4:0] rs1,
-  input [4:0] rs2,
-  input [4:0] rd,
-  input [31:0] Datawr,
+  input [4:0] RUrs1,
+  input [4:0] RUrs2,
+  input [4:0] RUrd,
+  input [31:0] RUDatawr,
   input RUWr,
   input CLK,
-  output [31:0] RUrs1,
-  output [31:0] RUrs2
+  output [31:0] RUoutrs1,
+  output [31:0] RUoutrs2
 );
   
   logic [31:0] RU [31:0];
@@ -16,13 +16,13 @@ module RegistersUnit(
   end
   
   
-  assign RUrs1 = RU[rs1];
-  assign RUrs2 = RU[rs2];
+  assign RUoutrs1 = RU[RUrs1];
+  assign RUoutrs2 = RU[RUrs2];
   
   always @(posedge CLK) begin
     if (RUWr == 1 && rd != 0)
-      RU[rd] = Datawr;
-    else RU[rd] = 0;
+      RU[RUrd] = RUDatawr;
+    else RU[RUrd] = 0;
   end
   
 endmodule

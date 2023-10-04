@@ -21,7 +21,27 @@ wire [31:0] PCin; // Señal de entrada del PC
 wire [31:0] PCAddress; // Señal de salida del sumador
 wire [31:0] SMout; // Señal de salida del sumador
 wire [31:0] IMInstruction; // Señal de salida del InstructionMemory
-
+wire CURUWr; // Señal de salida del ControlUnit
+wire CUImmSrc; // Señal de salida del ControlUnit
+wire CUALUASrc; // Señal de salida del ControlUnit
+wire CUALUBSrc; // Señal de salida del ControlUnit
+wire CUBrOp; // Señal de salida del ControlUnit
+wire CUALUOp; // Señal de salida del ControlUnit
+wire CUDMWr; // Señal de salida del ControlUnit
+wire [1:0] CUDMCtrl; // Señal de salida del ControlUnit
+wire [1:0] CURUDataWrSrc; // Señal de salida del ControlUnit
+wire [31:0] MDDatawr;
+wire CURUWr;
+wire [31:0] RUoutrs1;
+wire [31:0] RUoutrs2;
+wire [31:0] IMMout;
+wire [31:0] MR1A;
+wire [31:0] MR2B;
+wire BUNextPCSrc;
+wire [31:0] ALURes;
+wire [31:0] MSBin;
+wire [31:0] DMDataRd;
+wire [31:0] MDDatawr;
 
   ProgramCounter miProgramCounter(
     .CLK(CLK),
@@ -36,7 +56,7 @@ wire [31:0] IMInstruction; // Señal de salida del InstructionMemory
   );
   
   InstructionMemory miInstructionMemory(
-    .IMAddress(SMAddress),        // Conexión de la señal 'Address' del PC a 'Address' de InstructionMemory
+    .IMAddress(PCAddress),        // Conexión de la señal 'Address' del PC a 'Address' de InstructionMemory
     .IMInstruction(IMInstruction) // Conexión de la señal de salida 'Instruction'
   );
   
@@ -46,81 +66,81 @@ wire [31:0] IMInstruction; // Señal de salida del InstructionMemory
     .CUFunct7(Funct7),         // Conecta Funct7 a Funct7
     .CURUWr(CURUWr),             // Conecta RUWr a RUWr
     .CUImmSrc(CUImmSrc),         // Conecta ImmSrc a ImmSrc
-    .ALUASrc(ALUASrc),       // Conecta ALUASrc a ALUASrc
-    .ALUBSrc(ALUBSrc),       // Conecta ALUBSrc a ALUBSrc
-    .BrOp(BrOp),             // Conecta BrOp a BrOp
-    .ALUOp(ALUOp),           // Conecta ALUOp a ALUOp
-    .DMWr(DMWr),             // Conecta DMWr a DMWr
-    .DMCtrl(DMCtrl),         // Conecta DMCtrl a DMCtrl
-    .RUDataWrSrc(RUDataWrSrc) // Conecta RUDataWrSrc a RUDataWrSrc
+    .CUALUASrc(CUALUASrc),       // Conecta ALUASrc a ALUASrc
+    .CUALUBSrc(CUALUBSrc),       // Conecta ALUBSrc a ALUBSrc
+    .CUBrOp(CUBrOp),             // Conecta BrOp a BrOp
+    .CUALUOp(CUALUOp),           // Conecta ALUOp a ALUOp
+    .CUDMWr(CUDMWr),             // Conecta DMWr a DMWr
+    .CUDMCtrl(CUDMCtrl),         // Conecta DMCtrl a DMCtrl
+    .CURUDataWrSrc(CURUDataWrSrc) // Conecta RUDataWrSrc a RUDataWrSrc
   );
   
   RegistersUnit miRegistersUnit(
-    .rs1(rs1),          // Conexión de la señal 'rs1' a la entrada 'rs1' del RegistersUnit
-    .rs2(rs2),          // Conexión de la señal 'rs2' a la entrada 'rs2' del RegistersUnit
-    .rd(rd),            // Conexión de la señal 'rd' a la entrada 'rd' del RegistersUnit
-    .Datawr(Datawr),    // Conexión de la señal 'Datawr' de miMuxData a la entrada Datawr del registerUnit
-    .RUWr(RUWr),        // Conexión de la señal 'RUWr' del "design" a la entrada 'RUWr' del RegistersUnit
+    .RUrs1(RUrs1),          // Conexión de la señal 'rs1' a la entrada 'rs1' del RegistersUnit
+    .RUrs2(RUrs2),          // Conexión de la señal 'rs2' a la entrada 'rs2' del RegistersUnit
+    .RUrd(RUrd),            // Conexión de la señal 'rd' a la entrada 'rd' del RegistersUnit
+    .RUDatawr(MDDatawr),    // Conexión de la señal 'Datawr' de miMuxData a la entrada Datawr del registerUnit
+    .RUWr(CURUWr),        // Conexión de la señal 'RUWr' del "design" a la entrada 'RUWr' del RegistersUnit
     .CLK(CLK),          // Sincronizacion con el clock
-    .RUrs1(RUrs1),      // Conexión de la señal de salida 'RUrs1' del RegistersUnit
-    .RUrs2(RUrs2)       // Conexión de la señal de salida 'RUrs2' del RegistersUnit
+    .RUoutrs1(RUoutrs1),      // Conexión de la señal de salida 'RUrs1' del RegistersUnit
+    .RUoutrs2(RUoutrs2)       // Conexión de la señal de salida 'RUrs2' del RegistersUnit
   );
   
   ImmGen miImmGen(
-    .Inst(Inst),        // Conexión de la señal 'Inst' del Instruction Memory a la entrada 'Inst' del ImmGen
-    .ImmSrc(ImmSrc),    // Conexión de la señal 'ImmSrc' del Control Unit a la entrada 'ImmSrc' del ImmGen
-    .ImmExt(ImmExt)     // Conexión de la señal de salida 'ImmExt' del ImmGen
+    .IMMinst(IMInstruction),        // Conexión de la señal 'Inst' del Instruction Memory a la entrada 'Inst' del ImmGen
+    .IMMsrc(CUImmSrc),    // Conexión de la señal 'ImmSrc' del Control Unit a la entrada 'ImmSrc' del ImmGen
+    .IMMout(IMMout)     // Conexión de la señal de salida 'ImmExt' del ImmGen
   );
   
   Muxrs1 miMuxrs1(
-    .Address(Address),  // Conexión de la señal 'Address' a la entrada 'Address' del Muxrs1
-    .RUrs1(RUrs1),      // Conexión de la señal 'RUrs1' a la entrada 'RUrs1' del Muxrs1
-    .ALUASrc(ALUASrc),  // Conexión de la señal 'ALUASrc' a la entrada 'ALUASrc' del Muxrs1
-    .A(A)               // Conexión de la señal de salida 'A' del Muxrs1
+    .MR1Address(PCAddress),  // Conexión de la señal 'Address' a la entrada 'Address' del Muxrs1
+    .MR1RUrs1(RUoutrs1),      // Conexión de la señal 'RUrs1' a la entrada 'RUrs1' del Muxrs1
+    .MR1ALUASrc(CUALUASrc),  // Conexión de la señal 'ALUASrc' a la entrada 'ALUASrc' del Muxrs1
+    .MR1A(MR1A)               // Conexión de la señal de salida 'A' del Muxrs1
   );
   
   Muxrs2 miMuxrs2(
-    .RUrs2(RUrs2),      //Conexión de la señal 'RUrs2' a la entrada 'RUrs2' del Muxrs2 
-    .ImmExt(ImmExt),    //Conexión de la señal 'ImmExt' que viene de miImmGen a la entrada 'ImmExt'
-    .ALUBSrc(ALUBSrc),  //Conexión de la señal 'ALUBSrc' que viene del ControlUnit a la entrada 'ALUBSrc'
-    .B(B)               //Conexión de la señal de salida 'B'
+    .MR2RUrs2(RUoutrs2),      //Conexión de la señal 'RUrs2' a la entrada 'RUrs2' del Muxrs2 
+    .MR2ImmExt(IMMout),    //Conexión de la señal 'ImmExt' que viene de miImmGen a la entrada 'ImmExt'
+    .MR2ALUBSrc(CUALUBSrc),  //Conexión de la señal 'ALUBSrc' que viene del ControlUnit a la entrada 'ALUBSrc'
+    .MR2B(MR2B)               //Conexión de la señal de salida 'B'
     );
   
   BranchUnit miBranchUnit(
-    .RUrs1(RUrs1),          // Conexión del RUrs1 que viene del register file a la entrada 'RUrs1'
-    .RUrs2(RUrs2),          // Conexión del RUrs2 que viene del register file a la entrada 'RUrs2'
-    .BrOp(BrOp),            // Conexión del BrOp que viene del control unity a la entrada 'BrOp'
-    .NextPCSrc(NextPCSrc)   // Conexión del NextPCSrc
+    .BURUrs1(RUoutrs1),          // Conexión del RUrs1 que viene del register file a la entrada 'RUrs1'
+    .BURUrs2(RUoutrs2),          // Conexión del RUrs2 que viene del register file a la entrada 'RUrs2'
+    .BUBrOp(CUBrOp),            // Conexión del BrOp que viene del control unity a la entrada 'BrOp'
+    .BUNextPCSrc(BUNextPCSrc)   // Conexión del NextPCSrc
     );
   
   ALU miALU(                
-    .A(A),              //Conexión de la señal 'A' que viene de miMuxrs1 a la entrada 'A'
-    .B(B),              //Conexión de la señal 'B' que viene de miMuxrs2 a la entrada 'B'
-    .ALUOp(ALUOp),      //Conexión de la señal 'ALUOp' que viene de ControlUnit a la entrada 'ALUOp'
+    .ALUA(MR1A),              //Conexión de la señal 'A' que viene de miMuxrs1 a la entrada 'A'
+    .ALUB(MR2B),              //Conexión de la señal 'B' que viene de miMuxrs2 a la entrada 'B'
+    .ALUOp(CUALUOp),      //Conexión de la señal 'ALUOp' que viene de ControlUnit a la entrada 'ALUOp'
     .ALURes(ALURes)     //Señal de salida 'ALURes'
     );
   
   Muxsb miMuxsb(
-    .out(out),          //Conexión de la señal 'out' que viene del sumador a la entrada 'out'
-    .ALURes(ALURes),    //Conexión de la señal 'ALURes' que viene de la ALU a la entrada 'ALURes'
-    .NextPCSrc(NextPCSrc), //Conexión de la señal 'NextPCSrc' que viene de miBranchUnit a la entrada 'NextPCSrc'
-    .in(in)               //Señal de salida 'in'
+    .MSBout(SMout),          //Conexión de la señal 'out' que viene del sumador a la entrada 'out'
+    .MSBALURes(ALURes),    //Conexión de la señal 'ALURes' que viene de la ALU a la entrada 'ALURes'
+    .MSBNextPCSrc(BUNextPCSrc), //Conexión de la señal 'NextPCSrc' que viene de miBranchUnit a la entrada 'NextPCSrc'
+    .MSBin(MSBin)               //Señal de salida 'in'
     );
   
   DataMemory miDataMemory(
-    .Addresss(ALURes),      // La señal 'ALUres' que viene de la ALU se conecta a la entrada 'Address'
-    .DataWr(RUrs2),         // La señal 'RUrs2' que viene del register file se conecta a la entrada 'DataWr' 
-    .DMWr(DMWr),            // La señal 'DMWr' que viene del contro unity se conecta a la entrada 'DMWr'
-    .DMCtrl(DMCtrl),        // La señal 'DMCtrl' que viene del control unity se conecta a la entrada 'DMCtrl'
-    .DataRd(DataRd)         // La señal de salida 'DataRd' 
+    .DMAddresss(ALURes),      // La señal 'ALUres' que viene de la ALU se conecta a la entrada 'Address'
+    .DMDataWr(RUoutrs2),         // La señal 'RUrs2' que viene del register file se conecta a la entrada 'DataWr' 
+    .DMWr(CUDMWr),            // La señal 'DMWr' que viene del contro unity se conecta a la entrada 'DMWr'
+    .DMCtrl(CUDMCtrl),        // La señal 'DMCtrl' que viene del control unity se conecta a la entrada 'DMCtrl'
+    .DMDataRd(DMDataRd)         // La señal de salida 'DataRd' 
   );
   
   MuxData miMuxData(
-    .out(out),              //La señal 'out' que viene del sumador se conecta con la entrada 'out'
-    .DataRd(DataRd),        //La señal 'DataRd' que viene del DataMemory se conecta con la entrada 'DataRd'
-    .ALURes(ALURes),        //La señal 'ALURes' que viene de la ALU se conecta con la entrada 'ALURes'
-    .RUDataWrSrc(RUDataWrSrc), //La señal 'RUDataWrSrc' que viene del ControlUnit se conecta con la entrada 'RUDataWrSrc' 
-    .Datawr(Datawr)          //La señal de salida 'Datawr'   
+    .MDout(SMout),              //La señal 'out' que viene del sumador se conecta con la entrada 'out'
+    .MDDataRd(DMDataRd),        //La señal 'DataRd' que viene del DataMemory se conecta con la entrada 'DataRd'
+    .MDALURes(ALURes),        //La señal 'ALURes' que viene de la ALU se conecta con la entrada 'ALURes'
+    .MDRUDataWrSrc(CURUDataWrSrc), //La señal 'RUDataWrSrc' que viene del ControlUnit se conecta con la entrada 'RUDataWrSrc' 
+    .MDDatawr(MDDatawr)          //La señal de salida 'Datawr'   
     );
  
 
