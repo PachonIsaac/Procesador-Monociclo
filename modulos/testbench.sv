@@ -20,8 +20,7 @@ module test;
   
   initial begin
     $dumpfile("dump.vcd");
-    $dumpvars(2);
-    
+    $dumpvars(0);
     
     #160 $finish;
   end

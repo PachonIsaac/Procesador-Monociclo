@@ -90,124 +90,124 @@ module ControlUnit(
       // Tipo I load
       7'b0000011:
         begin
-          RUWr        = 1;
-          ImmSrc      = 0;
-          ALUASrc     = 0;
-          ALUBSrc     = 1;
-          BrOp        = 5'b10101;
-          ALUOp       = 0;
-          DMWr        = 0;
-          RUDataWrSrc = 2'b01;
-          case(Funct3)
+          CURUWr        = 1;
+          CUImmSrc      = 0;
+          CUALUASrc     = 0;
+          CUALUBSrc     = 1;
+          CUBrOp        = 5'b10101;
+          CUALUOp       = 0;
+          CUDMWr        = 0;
+          CURUDataWrSrc = 2'b01;
+          case(CUFunct3)
             3'b000:
-              DMCtrl = 3'b000; //lb
+              CUDMCtrl = 3'b000; //lb
             3'b001:
-              DMCtrl = 3'b001; //lh
+              CUDMCtrl = 3'b001; //lh
             3'b010:
-              DMCtrl = 3'b010; //lw
+              CUDMCtrl = 3'b010; //lw
             3'b100:
-              DMCtrl = 3'b100; //lbu
+              CUDMCtrl = 3'b100; //lbu
             3'b101:
-              DMCtrl = 3'b101; //lhu
+              CUDMCtrl = 3'b101; //lhu
           endcase
         end
       // Tipo I jalr
       7'b1100111:
         begin
-          RUWr    = 0;
-          ImmSrc  = 0;
-          ALUASrc = 0;
-          ALUBSrc = 1;
-          BrOp    = 5'b10101;
-          ALUOp   = 0;
-          DMWr    = 0;
-          DMCtrl  = 0;
-          RUDataWrSrc = 2'b10;
+          CURUWr    = 0;
+          CUImmSrc  = 0;
+          CUALUASrc = 0;
+          CUALUBSrc = 1;
+          CUBrOp    = 5'b10101;
+          CUALUOp   = 0;
+          CUDMWr    = 0;
+          CUDMCtrl  = 0;
+          CURUDataWrSrc = 2'b10;
         end
       //Tipo S B branch 
       7'b1100011:
         begin
-          RUWr        = 0;
-          ImmSrc      = 3'b010;
-          ALUASrc     = 0;
-          ALUBSrc     = 1;
-          ALUOp       = 0;
-          DMWr        = 0;
-          DMCtrl      = 0;
-          RUDataWrSrc = 0;
-          case(Funct3)
+          CURUWr        = 0;
+          CUImmSrc      = 3'b010;
+          CUALUASrc     = 0;
+          CUALUBSrc     = 1;
+          CUALUOp       = 0;
+          CUDMWr        = 0;
+          CUDMCtrl      = 0;
+          CURUDataWrSrc = 0;
+          case(CUFunct3)
             3'b000:
-              BrOp = 5'b00000; //beq
+              CUBrOp = 5'b00000; //beq
             3'b001:
-              BrOp = 5'b00001; //bne
+              CUBrOp = 5'b00001; //bne
             3'b100:
-              BrOp = 5'b00100; //blt
+              CUBrOp = 5'b00100; //blt
             3'b101:
-              BrOp = 5'b00101; //bge
+              CUBrOp = 5'b00101; //bge
             3'b110:
-              BrOp = 5'b00110; //bltu
+              CUBrOp = 5'b00110; //bltu
             3'b111:
-              BrOp = 5'b00111; //bgeu
+              CUBrOp = 5'b00111; //bgeu
           endcase
         end
       // Tipo S B storage
       7'b0100011:
         begin
-          RUWr    = 1;
-          ImmSrc  = 3'b010;
-          ALUASrc = 0;
-          ALUBSrc = 1;
-          BrOp    = 5'b10101;
-          ALUOp   = 0;
-          DMWr    = 1;
-          RUDataWrSrc = 2'b01;
-          case(Funct3)
+          CURUWr    = 1;
+          CUImmSrc  = 3'b010;
+          CUALUASrc = 0;
+          CUALUBSrc = 1;
+          CUBrOp    = 5'b10101;
+          CUALUOp   = 0;
+          CUDMWr    = 1;
+          CURUDataWrSrc = 2'b01;
+          case(CUFunct3)
             3'b000:
-              DMCtrl = 3'b000; //sb
+              CUDMCtrl = 3'b000; //sb
             3'b001:
-              DMCtrl = 3'b001; //sh
+              CUDMCtrl = 3'b001; //sh
             3'b010:
-              DMCtrl = 3'b010; //sw
+              CUDMCtrl = 3'b010; //sw
           endcase
         end
       // Tipo U J jal
       7'b1101111:
         begin
-          RUWr    = 1;
-          ImmSrc  = 3'b100;
-          ALUASrc = 1;
-          ALUBSrc = 1;
-          BrOp    = 5'b01111;
-          ALUOp   = 0;
-          DMWr    = 0;
-          DMCtrl  = 0;          
-          RUDataWrSrc = 2'b10;
+          CURUWr    = 1;
+          CUImmSrc  = 3'b100;
+          CUALUASrc = 1;
+          CUALUBSrc = 1;
+          CUBrOp    = 5'b01111;
+          CUALUOp   = 0;
+          CUDMWr    = 0;
+          CUDMCtrl  = 0;          
+          CURUDataWrSrc = 2'b10;
         end
       // Tipo U J lui
       7'b0110111:
         begin
-          RUWr    = 1;
-          ImmSrc  = 3'b011;
-          ALUASrc = 1;
-          ALUBSrc = 1;
-          BrOp    = 5'b10111;
-          ALUOp   = 0;
-          DMWr    = 0;
-          DMCtrl  = 0;          
-          RUDataWrSrc = 2'b10;
+          CURUWr    = 1;
+          CUImmSrc  = 3'b011;
+          CUALUASrc = 1;
+          CUALUBSrc = 1;
+          CUBrOp    = 5'b10111;
+          CUALUOp   = 0;
+          CUDMWr    = 0;
+          CUDMCtrl  = 0;          
+          CURUDataWrSrc = 2'b10;
         end
       // Tipo U J auipc
       7'b0010111:
         begin
-          RUWr    = 1;
-          ImmSrc  = 3'b011;
-          ALUASrc = 1;
-          ALUBSrc = 1;
-          BrOp    = 5'b10111;
-          ALUOp   = 0;
-          DMWr    = 0;
-          DMCtrl  = 0;          
-          RUDataWrSrc = 2'b10;
+          CURUWr    = 1;
+          CUImmSrc  = 3'b011;
+          CUALUASrc = 1;
+          CUALUBSrc = 1;
+          CUBrOp    = 5'b10111;
+          CUALUOp   = 0;
+          CUDMWr    = 0;
+          CUDMCtrl  = 0;          
+          CURUDataWrSrc = 2'b10;
         end
     endcase
   end
