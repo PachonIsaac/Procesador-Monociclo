@@ -1,5 +1,3 @@
-// Code your design here
-
 module DataMemory(
   input [31:0] DMAddresss,
   input [31:0] DMDataWr,
@@ -33,7 +31,7 @@ module DataMemory(
             DMDataRd[31:16] = 0;
             DMDataRd[15:0] = {DM[DMAddresss],DM[DMAddresss+1]};
           end
-        3'b010: DMDataRd = {DM[DMAddresss], DM[DMAddresss+1], 	       						      DM[DMAddresss+2], DM[DMAddresss+3]};
+        3'b010: DMDataRd = {DM[DMAddresss], DM[DMAddresss+1],DM[DMAddresss+2], DM[DMAddresss+3]};
         
         3'b100: 
           begin

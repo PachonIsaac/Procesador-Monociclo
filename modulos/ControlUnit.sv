@@ -1,5 +1,3 @@
-// Code your design here
-
 module ControlUnit(
   input [6:0] CUOpcode,
   input [2:0] CUFunct3,

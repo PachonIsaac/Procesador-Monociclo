@@ -1,27 +1,32 @@
-// Code your testbench here
-// or browse Examples
-`include "design.sv"
 
-module test;
-  logic CLK;
-  
-  Procesador miProcesador(
-    .CLK(CLK)
+module testbench;
+  reg clk;
+  reg reset;
+  reg [31:0] IAddress; 
+
+  procesador dut(
+    .clk(clk),
+    .reset(reset),
+    .IAddress(IAddress)
   );
-  
-  parameter PERIODO = 20;
-  
-  always begin
-    CLK = 0;
-    #(PERIODO/2);
-    CLK = 1;
-    #(PERIODO/2);
-  end
-  
+
+  always #5 clk = ~clk;
+// 
   initial begin
-    $dumpfile("dump.vcd");
-    $dumpvars(0);
-    
-    #160 $finish;
-  end
+    $dumpfile("procesadorTB.vcd");
+    $dumpvars(0, testbench);
+
+    clk = 0;
+    reset = 1;
+    IAddress = 0;
+
+    #10 reset = 0;
+
+
+    #20;
+
+    #35;
+
+    $finish;
+ end
 endmodule

@@ -1,5 +1,5 @@
 module ImmGen(
-  input [31:0] IMMinst,    // Entrada: campo inmediato de la instrucción
+  input [24:0] IMMinst,    // Entrada: campo inmediato de la instrucción
   input [2:0] IMMsrc,   // Entrada: selector de fuente de inmediato
   output reg [31:0] IMMout  // Salida: valor inmediato extendido
 );

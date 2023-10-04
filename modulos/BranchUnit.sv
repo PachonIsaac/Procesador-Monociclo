@@ -1,5 +1,3 @@
-// Code your design here
-
 module BranchUnit(
   input [31:0] BURUrs2,
   input [31:0] BURUrs1,

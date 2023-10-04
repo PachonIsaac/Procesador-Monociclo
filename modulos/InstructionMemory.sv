@@ -1,5 +1,3 @@
-// Code your design here
-
 module InstructionMemory(
   input [31:0] IMAddress,
   output reg [31:0] IMInstruction
