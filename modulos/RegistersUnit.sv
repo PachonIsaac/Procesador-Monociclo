@@ -23,6 +23,9 @@ module RegistersUnit(
     if (RUWr == 1 && RUrd != 0)
       RU[RUrd] = RUDatawr;
     else RU[RUrd] = 0;
+
+    for (int i = 0; i < 32; i = i + 1)
+      $display("RU[%d] = %d", i, RU[i]);
   end
   
 endmodule

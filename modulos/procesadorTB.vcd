@@ -1,5 +1,5 @@
 $date
-	Wed Oct 04 17:39:40 2023
+	Wed Nov 01 16:22:44 2023
 $end
 $version
 	Icarus Verilog
@@ -138,10 +138,13 @@ $var wire 32 v RUoutrs2 [31:0] $end
 $var wire 5 w RUrd [4:0] $end
 $var wire 5 x RUrs1 [4:0] $end
 $var wire 5 y RUrs2 [4:0] $end
+$scope begin $ivl_for_loop0 $end
+$var integer 32 z i [31:0] $end
+$upscope $end
 $upscope $end
 $scope module miSumador $end
-$var wire 32 z SMAddress [31:0] $end
-$var reg 32 { SMout [31:0] $end
+$var wire 32 { SMAddress [31:0] $end
+$var reg 32 | SMout [31:0] $end
 $upscope $end
 $upscope $end
 $upscope $end
@@ -151,8 +154,9 @@ $dumpall
 $end
 #0
 $dumpvars
+bx |
 bx {
-bx z
+b0 z
 bx y
 bx x
 bx w
@@ -244,23 +248,23 @@ b0 $
 b0 !
 $end
 #5
-b101 2
-b101 g
-b101 t
-b101 A
-b101 M
-b101 Y
-b101 c
-b101 n
-b101 0
-b101 K
-b101 m
+b11 2
+b11 g
+b11 t
+b11 A
+b11 M
+b11 Y
+b11 c
+b11 n
+b11 0
+b11 K
+b11 m
 b100 .
 b100 p
 b100 r
-b101 5
-b101 _
-b101 k
+b11 5
+b11 _
+b11 k
 b0 6
 b0 \
 b0 d
@@ -287,9 +291,9 @@ b0 9
 b0 W
 b0 ^
 17
-b1010000000000001 4
-b1010000000000001 E
-b1010000000000001 ]
+b110100000000001 4
+b110100000000001 E
+b110100000000001 ]
 b1 '
 b1 G
 b1 w
@@ -298,16 +302,16 @@ b0 N
 b0 [
 b0 l
 b0 v
-b101 %
-b101 I
-b101 y
+b11 %
+b11 I
+b11 y
 b0 -
 b0 O
 b0 h
 b0 u
-b0 &
-b0 H
-b0 x
+b1000 &
+b1000 H
+b1000 x
 b0 )
 b0 D
 b0 R
@@ -317,71 +321,34 @@ b0 Q
 b10011 (
 b10011 F
 b10011 S
-b10100000000000010010011 3
-b10100000000000010010011 B
-b10100000000000010010011 a
+b1101000000000010010011 3
+b1101000000000010010011 B
+b1101000000000010010011 a
 b0 b
 b100 +
 b100 f
 b100 o
-b100 {
+b100 |
+b100000 z
 b0 /
 b0 `
 b0 i
 b0 s
-b0 z
+b0 {
 1"
 #10
 0"
 0#
 #15
-b1 5
-b1 _
-b1 k
-0>
-b10000000000010 4
-b10000000000010 E
-b10000000000010 ]
-b10 '
-b10 G
-b10 w
-b101 ,
-b101 N
-b101 [
-b101 l
-b101 v
-b1 %
-b1 I
-b1 y
-b110011 (
-b110011 F
-b110011 S
-b1000 .
-b1000 p
-b1000 r
-b100000000000100110011 3
-b100000000000100110011 B
-b100000000000100110011 a
-b1 b
-b1000 +
-b1000 f
-b1000 o
-b1000 {
-b100 /
-b100 `
-b100 i
-b100 s
-b100 z
-1"
-#20
-0"
-#25
 b0xxxxxxxx 6
 b0xxxxxxxx \
 b0xxxxxxxx d
 bx 2
 bx g
 bx t
+b0xxxxxxxxxxxxx 0
+b0xxxxxxxxxxxxx K
+b0xxxxxxxxxxxxx m
 bx A
 bx M
 bx Y
@@ -390,9 +357,6 @@ bx n
 b0xxxxxxxxxxxxx 5
 b0xxxxxxxxxxxxx _
 b0xxxxxxxxxxxxx k
-bx 0
-bx K
-bx m
 bx 1
 bx L
 bx j
@@ -426,22 +390,41 @@ bx Q
 bx (
 bx F
 bx S
-b1100 .
-b1100 p
-b1100 r
+b1000 .
+b1000 p
+b1000 r
 bx 3
 bx B
 bx a
+b1 b
+b1000 +
+b1000 f
+b1000 o
+b1000 |
+b100000 z
+b100 /
+b100 `
+b100 i
+b100 s
+b100 {
+1"
+#20
+0"
+#25
+b1100 .
+b1100 p
+b1100 r
 b10 b
 b1100 +
 b1100 f
 b1100 o
-b1100 {
+b1100 |
+b100000 z
 b1000 /
 b1000 `
 b1000 i
 b1000 s
-b1000 z
+b1000 {
 1"
 #30
 0"
@@ -453,12 +436,13 @@ b11 b
 b10000 +
 b10000 f
 b10000 o
-b10000 {
+b10000 |
+b100000 z
 b1100 /
 b1100 `
 b1100 i
 b1100 s
-b1100 z
+b1100 {
 1"
 #40
 0"
@@ -470,12 +454,13 @@ b100 b
 b10100 +
 b10100 f
 b10100 o
-b10100 {
+b10100 |
+b100000 z
 b10000 /
 b10000 `
 b10000 i
 b10000 s
-b10000 z
+b10000 {
 1"
 #50
 0"
@@ -487,12 +472,13 @@ b101 b
 b11000 +
 b11000 f
 b11000 o
-b11000 {
+b11000 |
+b100000 z
 b10100 /
 b10100 `
 b10100 i
 b10100 s
-b10100 z
+b10100 {
 1"
 #60
 0"
@@ -504,10 +490,11 @@ b110 b
 b11100 +
 b11100 f
 b11100 o
-b11100 {
+b11100 |
+b0 z
 b11000 /
 b11000 `
 b11000 i
 b11000 s
-b11000 z
+b11000 {
 1"
