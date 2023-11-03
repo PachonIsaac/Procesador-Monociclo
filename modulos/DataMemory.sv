@@ -19,20 +19,20 @@ module DataMemory(
           begin
             if(DM[DMAddresss[7]] == 1)begin
               DMDataRd[31:8] = 1;
-              DMDataRd[7:0] = DM[DMAddresss];
+              DMDataRd[7:0] = DM[DMAddresss+3];
             end else begin
               DMDataRd[31:8] = 0;
-              DMDataRd[7:0] = DM[DMAddresss];
+              DMDataRd[7:0] = DM[DMAddresss+3];
             end
           end
         3'b001:
           begin
             if(DM[DMAddresss[15]] == 1)begin
               DMDataRd[31:16] = 1;
-              DMDataRd[15:0] = {DM[DMAddresss],DM[DMAddresss+1]};
+              DMDataRd[15:0] = {DM[DMAddresss+2],DM[DMAddresss+3]};
             end else begin
               DMDataRd[31:16] = 0;
-              DMDataRd[15:0] = {DM[DMAddresss],DM[DMAddresss+1]};
+              DMDataRd[15:0] = {DM[DMAddresss+2],DM[DMAddresss+3]};
             end
           end
         3'b010: 
@@ -43,12 +43,12 @@ module DataMemory(
         3'b100: 
           begin
             DMDataRd[31:8] = 0;
-            DMDataRd[7:0]  = DM[DMAddresss];
+            DMDataRd[7:0]  = DM[DMAddresss+3];
           end
         3'b101:
           begin
             DMDataRd[31:16] = 0;
-            DMDataRd[15:0]  = {DM[DMAddresss], DM[DMAddresss+1]};
+            DMDataRd[15:0]  = {DM[DMAddresss+2], DM[DMAddresss+3]};
           end
       endcase
     end else 
@@ -58,8 +58,8 @@ module DataMemory(
                 3'b000: DM[DMAddresss+3]   <= DMDataWr[7:0];
                 3'b001: 
                     begin
-                        DM[DMAddresss+2] <= DMDataWr[7:0];
-                        DM[DMAddresss+3] <= DMDataWr[15:8];
+                        DM[DMAddresss+2] <= DMDataWr[15:8];
+                        DM[DMAddresss+3] <= DMDataWr[7:0];
                     end
                 3'b010:
                     begin
@@ -68,7 +68,6 @@ module DataMemory(
                         DM[DMAddresss+2] <= DMDataWr[15:8];
                         DM[DMAddresss+3] <= DMDataWr[7:0];
                     end
-
             endcase
         end
     end
