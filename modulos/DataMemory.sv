@@ -15,23 +15,30 @@ module DataMemory(
   always @(DMAddresss, DMDataWr, DMWr, DMCtrl, DMDataRd) begin
     if(DMWr == 0)begin
       case(DMCtrl)
-        3'b000: 
-          if(DM[DMAddresss[7]] == 1)begin
-            DMDataRd[31:8] = 1;
-            DMDataRd[7:0] = DM[DMAddresss];
-          end else begin
-            DMDataRd[31:8] = 0;
-            DMDataRd[7:0] = DM[DMAddresss];
+        3'b000:
+          begin
+            if(DM[DMAddresss[7]] == 1)begin
+              DMDataRd[31:8] = 1;
+              DMDataRd[7:0] = DM[DMAddresss];
+            end else begin
+              DMDataRd[31:8] = 0;
+              DMDataRd[7:0] = DM[DMAddresss];
+            end
           end
         3'b001:
-          if(DM[DMAddresss[15]] == 1)begin
-            DMDataRd[31:16] = 1;
-            DMDataRd[15:0] = {DM[DMAddresss],DM[DMAddresss+1]};
-          end else begin
-            DMDataRd[31:16] = 0;
-            DMDataRd[15:0] = {DM[DMAddresss],DM[DMAddresss+1]};
+          begin
+            if(DM[DMAddresss[15]] == 1)begin
+              DMDataRd[31:16] = 1;
+              DMDataRd[15:0] = {DM[DMAddresss],DM[DMAddresss+1]};
+            end else begin
+              DMDataRd[31:16] = 0;
+              DMDataRd[15:0] = {DM[DMAddresss],DM[DMAddresss+1]};
+            end
           end
-        3'b010: DMDataRd = {DM[DMAddresss], DM[DMAddresss+1],DM[DMAddresss+2], DM[DMAddresss+3]};
+        3'b010: 
+          begin
+            DMDataRd = {DM[DMAddresss], DM[DMAddresss+1],DM[DMAddresss+2], DM[DMAddresss+3]};
+          end
         
         3'b100: 
           begin
@@ -44,31 +51,33 @@ module DataMemory(
             DMDataRd[15:0]  = {DM[DMAddresss], DM[DMAddresss+1]};
           end
       endcase
-    end else begin
+    end else 
+        begin
             case(DMCtrl)
-              3'b000: DM[DMAddresss]   <= DMDataWr[7:0];
-              3'b001: 
-                begin
-                  DM[DMAddresss]   <= DMDataWr[7:0];
-                  DM[DMAddresss+1] <= DMDataWr[15:8];
-                end
-              3'b010:
-                begin
-                  DM[DMAddresss]   <= DMDataWr[7:0];
-                  DM[DMAddresss+1] <= DMDataWr[15:8];
-                  DM[DMAddresss+2] <= DMDataWr[23:16];
-                  DM[DMAddresss+3] <= DMDataWr[31:24];
-                end
+
+                3'b000: DM[DMAddresss+3]   <= DMDataWr[7:0];
+                3'b001: 
+                    begin
+                        DM[DMAddresss+2] <= DMDataWr[7:0];
+                        DM[DMAddresss+3] <= DMDataWr[15:8];
+                    end
+                3'b010:
+                    begin
+                        DM[DMAddresss]   <= DMDataWr[31:24];
+                        DM[DMAddresss+1] <= DMDataWr[23:16];
+                        DM[DMAddresss+2] <= DMDataWr[15:8];
+                        DM[DMAddresss+3] <= DMDataWr[7:0];
+                    end
+
             endcase
-      //DMDataRd[7:0] = DM[DMAddresss];
         end
     end
-    always @(DMDataRd) begin
-      for (int i = 0; i < 32; i = i + 1) begin
-        $display("DMDataRd[%d] = %d", i, DMDataRd[i]);
-      end
+
+
+    always @(*) begin
+      $display("Memoria aqui ---------------------------------");
+      for (int i = 0; i < 10; i = i + 1)
+          $display("DM[%d] = %b", i, DM[i]);
     end
+
 endmodule
-          
-            
-  

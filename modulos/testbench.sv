@@ -22,10 +22,7 @@ module testbench;
 
     #10 reset = 0;
 
-
-    #20;
-
-    #35;
+    #80
 
     $finish;
  end
