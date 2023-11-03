@@ -20,7 +20,7 @@ module procesador(
 );
 
   wire [31:0] PCin; // Señal de entrada del PC
-  wire [31:0] PCAddress; // Señal de salida del PC conectada al sumador 
+  wire [31:0] PCAddresss; // Señal de salida del PC conectada al sumador 
   wire [31:0] SMout; // Señal de salida del sumador
   wire [4:0] CUBrOp; // Señal de salida del ControlUnit
   wire [31:0] IMMout;

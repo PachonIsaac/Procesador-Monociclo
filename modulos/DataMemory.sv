@@ -54,6 +54,7 @@ module DataMemory(
     end else 
         begin
             case(DMCtrl)
+
                 3'b000: DM[DMAddresss+3]   <= DMDataWr[7:0];
                 3'b001: 
                     begin
@@ -67,16 +68,16 @@ module DataMemory(
                         DM[DMAddresss+2] <= DMDataWr[15:8];
                         DM[DMAddresss+3] <= DMDataWr[7:0];
                     end
+
             endcase
         end
     end
+
 
     always @(*) begin
       $display("Memoria aqui ---------------------------------");
       for (int i = 0; i < 10; i = i + 1)
           $display("DM[%d] = %b", i, DM[i]);
     end
-
-
 
 endmodule

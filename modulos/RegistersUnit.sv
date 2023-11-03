@@ -20,6 +20,7 @@ module RegistersUnit(
   assign RUoutrs2 = RU[RUrs2];
   
   always @(posedge CLK) begin
+
     if (RUWr == 1 && RUrd != 0)
       RU[RUrd] = RUDatawr;
     else RU[RUrd] = 0;
