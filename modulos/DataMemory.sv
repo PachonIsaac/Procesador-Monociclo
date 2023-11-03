@@ -57,11 +57,16 @@ module DataMemory(
                   DM[DMAddresss]   <= DMDataWr[7:0];
                   DM[DMAddresss+1] <= DMDataWr[15:8];
                   DM[DMAddresss+2] <= DMDataWr[23:16];
-                  DM[DMAddresss+3] <= DMDataWr[31:23];
+                  DM[DMAddresss+3] <= DMDataWr[31:24];
                 end
             endcase
       //DMDataRd[7:0] = DM[DMAddresss];
         end
+    end
+    always @(DMDataRd) begin
+      for (int i = 0; i < 32; i = i + 1) begin
+        $display("DMDataRd[%d] = %d", i, DMDataRd[i]);
+      end
     end
 endmodule
           

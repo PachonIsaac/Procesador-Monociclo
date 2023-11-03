@@ -20,9 +20,9 @@ module RegistersUnit(
   assign RUoutrs2 = RU[RUrs2];
   
   always @(posedge CLK) begin
-    if (RUWr == 1 && RUrd != 0)
-      RU[RUrd] = RUDatawr;
-    else RU[RUrd] = 0;
+    if (RUWr && (RUrd != 0)) begin
+    RU[RUrd] <= RUDatawr;
+    end
 
     for (int i = 0; i < 32; i = i + 1)
       $display("RU[%d] = %d", i, RU[i]);
