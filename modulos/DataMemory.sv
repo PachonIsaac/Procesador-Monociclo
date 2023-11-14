@@ -67,7 +67,7 @@ module DataMemory (
 
   always @(*) begin
     $display("Memoria aqui ---------------------------------");
-    for (int i = 0; i < 10; i = i + 1) $display("DM[%d] = %b", i, DM[i]);
+    for (int i = 0; i < 32; i = i + 1) $display("DM[%d] = %b", i, DM[i]);
   end
 
 endmodule

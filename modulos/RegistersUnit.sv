@@ -29,7 +29,7 @@ module RegistersUnit(
 
 
     $display("Registros aqui ---------------------------------");
-    for (int i = 0; i < 31; i = i + 1)
+    for (int i = 0; i < 32; i = i + 1)
       $display("RU[%d] = %d", i, $signed(RU[i]));
   end
   
