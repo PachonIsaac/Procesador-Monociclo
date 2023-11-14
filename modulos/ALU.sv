@@ -6,7 +6,6 @@ module ALU(
 );
   
   always @(*) begin
-    $display("AlUA = %b, AlUB = %b, ALUOp = %b", ALUA, ALUB, ALUOp);
     case(ALUOp)
       4'b0000: ALURes = ALUA + ALUB;
       4'b0001: ALURes = ALUA << ALUB;
@@ -19,7 +18,6 @@ module ALU(
       4'b1000: ALURes = ALUA - ALUB;
       4'b1101: ALURes = $signed(ALUA) >>> ALUB;
     endcase
-    $display("ALURes = %b", ALURes);
   end
 endmodule
   

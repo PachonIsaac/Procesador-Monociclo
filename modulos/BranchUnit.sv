@@ -27,20 +27,16 @@ module BranchUnit (
       //BURUrs2 < BURUrs1
       if (BURUrs1 < BURUrs2) begin
         BUNextPCSrc = 1;
-        $display("blt True");
       end else begin
         BUNextPCSrc = 0;
-        $display("blt False");
       end
 
       5'b00101:
       //BURUrs2 >= BURUrs1
       if (BURUrs1 >= BURUrs2) begin
         BUNextPCSrc = 1;
-        $display("bge True");
       end else begin
         BUNextPCSrc = 0;
-        $display("bge False");
       end
 
       5'b00110:

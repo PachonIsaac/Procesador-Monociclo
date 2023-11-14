@@ -10,7 +10,6 @@ module MuxData(
     if (MDRUDataWrSrc == 2'b10)
       begin
         MDDatawr = MDout;
-        $display("MDDatawr = %d", $signed(MDDatawr));
       end
     if (MDRUDataWrSrc == 2'b01)
       MDDatawr = MDDataRd;

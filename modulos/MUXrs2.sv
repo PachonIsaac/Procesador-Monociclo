@@ -10,6 +10,5 @@ module Muxrs2(
       MR2B = MR2RUrs2;
     if (MR2ALUBSrc == 1)
       MR2B = MR2ImmExt;
-      $display("MR2B = %h, MR2ALUBSrc = %h", MR2B, MR2ALUBSrc);
   end
 endmodule

@@ -11,7 +11,6 @@ module ProgramCounter(
       // Cuando se activa el reset, establece Address en 0
       begin
         PCAddress = IAddress;
-        $display("Se activo el reset");
       end
     else 
       // En otros casos, actualiza Address con la entrada in
