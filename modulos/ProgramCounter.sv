@@ -9,11 +9,16 @@ module ProgramCounter(
  always @(posedge clk) begin
     if (reset == 1'b1) 
       // Cuando se activa el reset, establece Address en 0
-      PCAddress = IAddress;
+      begin
+        PCAddress = IAddress;
+        $display("Se activo el reset");
+      end
     else 
       // En otros casos, actualiza Address con la entrada in
-      PCAddress = PCin;
-      $display("PCAddress: %d", PCAddress);
+      begin
+        PCAddress = PCin;
+        $display("PCAddress: %d", PCAddress);
+      end
   end
   
 endmodule

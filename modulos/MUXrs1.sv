@@ -6,9 +6,12 @@ module Muxrs1(
 );
   
   always@(*) begin
-    if (MR1ALUASrc == 0)
-      MR1A = MR1RUrs1;
+    if (MR1ALUASrc == 0) begin
+        MR1A = MR1RUrs1;
+      end
     if (MR1ALUASrc == 1)
-      MR1A = MR1Address;
+      begin
+        MR1A = MR1Address;
+      end
   end
 endmodule

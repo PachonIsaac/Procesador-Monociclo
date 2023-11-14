@@ -8,7 +8,10 @@ module MuxData(
   
   always@(*) begin
     if (MDRUDataWrSrc == 2'b10)
-      MDDatawr = MDout;
+      begin
+        MDDatawr = MDout;
+        $display("MDDatawr = %d", $signed(MDDatawr));
+      end
     if (MDRUDataWrSrc == 2'b01)
       MDDatawr = MDDataRd;
     if (MDRUDataWrSrc == 2'b00)

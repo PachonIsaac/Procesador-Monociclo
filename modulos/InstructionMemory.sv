@@ -5,7 +5,7 @@ module InstructionMemory(
   
   reg [31:0] direccion;
   
-  logic [31:0] IM [31:0];
+  logic [31:0] IM [1023:0];
   
   
   initial begin
@@ -15,6 +15,8 @@ module InstructionMemory(
   always@(IMAddress, IMInstruction)begin
     direccion = IMAddress/4;
     IMInstruction = IM[direccion];
+    $display("Instruccion Memory: %b", IMInstruction);
   end
   
 endmodule
+

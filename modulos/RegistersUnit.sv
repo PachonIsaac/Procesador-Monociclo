@@ -22,11 +22,15 @@ module RegistersUnit(
   always @(posedge CLK) begin
 
     if (RUWr == 1 && RUrd != 0)
-      RU[RUrd] = RUDatawr;
-    else RU[RUrd] = 0;
+      begin
+        RU[RUrd] = RUDatawr;
+      end
+    
+
+
     $display("Registros aqui ---------------------------------");
-    for (int i = 0; i < 10; i = i + 1)
-      $display("RU[%d] = %d", i, RU[i]);
+    for (int i = 0; i < 31; i = i + 1)
+      $display("RU[%d] = %d", i, $signed(RU[i]));
   end
   
 endmodule
