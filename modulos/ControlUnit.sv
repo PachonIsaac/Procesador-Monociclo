@@ -116,7 +116,7 @@ module ControlUnit (
       end
       // Tipo S B storage
       7'b0100011: begin
-        CURUWr    = 1;
+        CURUWr    = 0;
         CUImmSrc  = 3'b010;
         CUALUASrc = 0;
         CUALUBSrc = 1;
